@@ -153,4 +153,4 @@ cython_debug/
 
 
 # personal ignores
-/spotify_data.txt/
+/login_data.txt/
