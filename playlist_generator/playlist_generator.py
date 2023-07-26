@@ -10,19 +10,15 @@ connection = None
 
 
 def generate_playlist_with_links(spotify, playlist_name, track_links):
-    # Create an empty playlist
     playlist = spotify.user_playlist_create(spotify.me()["id"], playlist_name, public=False)
     playlist_id = playlist["id"]
 
-    # Split the track links into smaller chunks
-    chunk_size = 100  # Maximum number of tracks allowed per request
-    track_link_chunks = [track_links[i:i+chunk_size] for i in range(0, len(track_links), chunk_size)]
+    max_tracks = 100  # Maximum number of tracks allowed per request
+    partly_track_links = [track_links[i:i+max_tracks] for i in range(0, len(track_links), max_tracks)]
 
-    for track_links_chunk in track_link_chunks:
-        # Get the track IDs from the track links (excluding None values)
-        track_ids = [link.split("/")[-1].split("?")[0] for link in track_links_chunk if link]
+    for curr_piece in partly_track_links:
+        track_ids = [link.split("/")[-1].split("?")[0] for link in curr_piece if link]
 
-        # Add the tracks to the playlist
         spotify.playlist_add_items(playlist_id, track_ids)
         print(f"Added {len(track_ids)} tracks to the playlist.")
 
@@ -33,7 +29,7 @@ def main():
     client_id = ""
     client_secret = ""
 
-    playlist_name = "AI Generated Playlist"
+    playlist_name = "AI EDM Playlist"
 
     connection = psycopg2.connect(
         host=db_host,
@@ -44,7 +40,7 @@ def main():
 
     try:
         cursor = connection.cursor()
-        cursor.execute("SELECT spotify_link FROM all_pop_table;")
+        cursor.execute("SELECT spotify_link FROM all_pop_table WHERE main_folder LIKE '%EDM%';")
         track_links = [row[0] for row in cursor.fetchall()]
 
         sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
