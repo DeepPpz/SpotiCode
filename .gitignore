@@ -153,4 +153,5 @@ cython_debug/
 
 
 # personal ignores
-/login_data.txt/
+login_data.txt
+/.idea/
