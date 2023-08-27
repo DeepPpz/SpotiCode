@@ -2,6 +2,7 @@ import os
 import psycopg2
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+import config
 
 
 def insert_data_into_db(connection, cursor, artist, title, spotify_link):
@@ -11,8 +12,8 @@ def insert_data_into_db(connection, cursor, artist, title, spotify_link):
     
 
 def generate_spotify_links(artist, title):
-    client_id = ""
-    client_secret = ""
+    client_id = config.client_id
+    client_secret = config.client_secret
     
     auth_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
     sp = spotipy.Spotify(auth_manager=auth_manager)
@@ -25,22 +26,16 @@ def generate_spotify_links(artist, title):
         return track_url
 
 
-db_host = "localhost"
-db_name = "spotify_db"
-db_user = "postgres"
-db_password = "******"
-connection = None
-
 try:
     connection = psycopg2.connect(
-        host=db_host,
-        database=db_name,
-        user=db_user,
-        password=db_password
+        host=config.host,
+        database=config.database,
+        user=config.user,
+        password=config.password
     )
     cursor = connection.cursor()
 
-    sql_query = "SELECT main_artist, song_title FROM all_pop_table"
+    sql_query = "SELECT main_artist, song_title FROM all_pop_table WHERE spotify_link IS NULL"
     cursor.execute(sql_query)
     
     for row in cursor.fetchall():
@@ -53,5 +48,5 @@ except psycopg2.Error as e:
     print("Error connecting database")
 
 finally:
-    if connection is not None:
+    if connection:
         connection.close()

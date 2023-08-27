@@ -1,12 +1,7 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import psycopg2
-
-db_host = "localhost"
-db_name = "spotify_db"
-db_user = "postgres"
-db_password = "******"
-connection = None
+import config
 
 
 def generate_playlist_with_links(spotify, playlist_name, track_links):
@@ -25,37 +20,29 @@ def generate_playlist_with_links(spotify, playlist_name, track_links):
     print(f"Playlist '{playlist_name}' with {len(track_links)} tracks created.")
 
 
-def main():
-    client_id = ""
-    client_secret = ""
-
-    playlist_name = "AI EDM Playlist"
-
+try:
     connection = psycopg2.connect(
-        host=db_host,
-        database=db_name,
-        user=db_user,
-        password=db_password
+        host=config.host,
+        database=config.database,
+        user=config.user,
+        password=config.password
     )
+    cursor = connection.cursor()
+    
+    playlist_name = "AI Generated Playlist"
+    cursor.execute("SELECT spotify_link FROM all_pop_table WHERE main_folder LIKE '%90s + 2000s%';")
+    track_links = [row[0] for row in cursor.fetchall()]
 
-    try:
-        cursor = connection.cursor()
-        cursor.execute("SELECT spotify_link FROM all_pop_table WHERE main_folder LIKE '%EDM%';")
-        track_links = [row[0] for row in cursor.fetchall()]
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=config.client_id,
+                                                    client_secret=config.client_secret,
+                                                    redirect_uri="http://localhost",
+                                                    scope="playlist-modify-private"))
 
-        sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
-                                                      client_secret=client_secret,
-                                                      redirect_uri="http://localhost",
-                                                      scope="playlist-modify-private"))
+    generate_playlist_with_links(sp, playlist_name, track_links)
 
-        generate_playlist_with_links(sp, playlist_name, track_links)
+except psycopg2.Error as e:
+    print("Error: ", e)
 
-    except psycopg2.Error as e:
-        print("Error: ", e)
-
-    finally:
-        if connection:
-            connection.close()
-
-if __name__ == "__main__":
-    main()
+finally:
+    if connection:
+        connection.close()

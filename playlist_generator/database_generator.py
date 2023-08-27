@@ -1,5 +1,6 @@
 import os
 import psycopg2
+import config
 
 def get_artist_and_title(file_name):
     try:
@@ -10,7 +11,7 @@ def get_artist_and_title(file_name):
 
 
 def insert_data_into_db(connection, cursor, artist, title, file_path):
-    sql_query = f"INSERT INTO all_pop_table (main_artist, song_title, file_path) VALUES (%s, %s, %s);"
+    sql_query = f"INSERT INTO all_rock_table (main_artist, song_title, file_path) VALUES (%s, %s, %s);"
     cursor.execute(sql_query, (artist, title, file_path))
     connection.commit()
 
@@ -24,23 +25,17 @@ def extract_info_from_files(main_folder, connection, cursor):
                 insert_data_into_db(connection, cursor, artist, title, file_path)
 
 
-db_host = "localhost"
-db_name = "spotify_db"
-db_user = "postgres"
-db_password = "******"
-connection = None
-
 try:
     connection = psycopg2.connect(
-        host=db_host,
-        database=db_name,
-        user=db_user,
-        password=db_password
+        host=config.host,
+        database=config.database,
+        user=config.user,
+        password=config.password
     )
     cursor = connection.cursor()    
     
     root_path = "C:/Dessy/Music"
-    files_dir = os.path.join(root_path, 'Pop')
+    files_dir = os.path.join(root_path, 'Rock')
 
     extract_info_from_files(files_dir, connection, cursor)
     print("Data inserted successfully!")
@@ -49,5 +44,5 @@ except psycopg2.Error as e:
     print("Error connecting database")
 
 finally:
-    if connection is not None:
+    if connection:
         connection.close()
