@@ -1,6 +1,8 @@
 import os
 import psycopg2
 import config
+import logging
+
 
 def get_artist_and_title(file_name):
     try:
@@ -11,9 +13,14 @@ def get_artist_and_title(file_name):
 
 
 def insert_data_into_db(connection, cursor, artist, title, file_path):
-    sql_query = f"INSERT INTO all_rock_table (main_artist, song_title, file_path) VALUES (%s, %s, %s);"
-    cursor.execute(sql_query, (artist, title, file_path))
-    connection.commit()
+    try:
+        sql_query = f"INSERT INTO all_rock_table (main_artist, song_title, file_path) VALUES (%s, %s, %s);"
+        cursor.execute(sql_query, (artist, title, file_path))
+        connection.commit()
+    except psycopg2.Error as err:
+        print("PostgreSQL Error:", err)
+    except Exception as e:
+        print("An error occurred:", e)
 
 
 def extract_info_from_files(main_folder, connection, cursor):
@@ -32,7 +39,10 @@ try:
         user=config.user,
         password=config.password
     )
-    cursor = connection.cursor()    
+    cursor = connection.cursor()
+    
+    logging.basicConfig(level=logging.DEBUG)
+    logging.getLogger('psycopg2').setLevel(logging.DEBUG)
     
     root_path = "C:/Dessy/Music"
     files_dir = os.path.join(root_path, 'Rock')
