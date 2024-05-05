@@ -159,6 +159,7 @@ cython_debug/
 # Django ignores
 **/migrations/*.py
 /media/
+/migrations/
 
 # Other ignores
 /darkpan-1.0.0/
