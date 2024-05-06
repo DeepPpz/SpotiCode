@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    
+<div class="container-fluid pt-4 px-4">
+    <div class="row vh-1000 bg-secondary rounded align-items-center justify-content-center mx-0">
+
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h4 class="mb-3 text-center">Add Songs to Playlist</h4>
+                <h4 class="mb-4 text-center">For playlist: {{ playlist }}</h4>
+
+                <h5 class="mb-4 text-center">Pick your criterias:</h5>
+
+                <form method="get" action="{% url 'playlist_songs_preview_mass_add' id=playlist.playlist_id %}">
+                    {% csrf_token %}
+                    {{ form }}
+
+                    <button class="btn btn-primary py-3 w-100 mb-4" type="submit">Generate</button>
+                </form>
+
+                <form method="post" action="{% url 'playlist_songs_mass_add' id=playlist.playlist_id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="playlist_id" value="{{ playlist.playlist_id }}">
+                    <button class="btn btn-primary py-3 w-100 mb-4" type="submit">Mass Add</button>
+
+                    <ul class="bg-secondary rounded h-100 p-4">
+                        {% for song in songs %}
+                            <li>
+                                <input class="form-check-input m-0" type="checkbox" name="songs" value="{{ song.song_id }}"> {{ song }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </form>
+            </div>
+        </div>
+
+{% endblock %}

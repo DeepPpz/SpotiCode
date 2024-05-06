@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<!-- Sign Up Start -->
+  <div class="container-fluid">
+    <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-20">
+            <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h3>Register User</h3>
+                </div>
+                <form method="post" action="{% url 'user_register' %}">
+                  <div class="form-floating mb-3">
+                      <input type="name" class="form-control" id="floatingInput" name="{{ form.first_name.name }}" placeholder="First Name">
+                      <label for="floatingInput">First Name</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                      <input type="name" class="form-control" id="floatingInput" name="{{ form.last_name.name }}" placeholder="Last Name">
+                      <label for="floatingInput">Last Name</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="name" class="form-control" id="floatingInput" name="{{ form.domain_name.name }}" placeholder="Domain Name">
+                    <label for="floatingInput">Domain Name</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                      <input type="password" class="form-control" id="floatingPassword" name="{{ form.password1.name }}" placeholder="Password">
+                      <label for="floatingPassword">Password</label>
+                      <small class="form-text text-muted">{{ form.password2.help_text }}</small>
+                  </div>
+                  <div class="form-floating mb-4">
+                    <input type="password" class="form-control" id="floatingPassword" name="{{ form.password2.name }}" placeholder="Password">
+                    <label for="floatingPassword">Confirm Password</label>
+                  </div>
+                  <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Register</button>
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+<!-- Sign Up End -->
+
+{% endblock %}

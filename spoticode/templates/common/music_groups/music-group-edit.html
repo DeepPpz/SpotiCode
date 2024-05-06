@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row vh-1000 bg-secondary rounded align-items-top justify-content-center mx-0">
+
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h4 class="mb-4 text-center">Edit Music Group</h4>
+
+                <div class="form-floating mb-3">
+                    <form method="post" action="{% url 'music_group_edit' id=music_group.id %}">
+                        {% csrf_token %}
+                        {{ form }}
+
+                        <button type="submit" class="btn btn-primary py-3 w-100 mb-3">Save</button>
+                    </form>
+
+                    <a href="{% url 'music_group_details' id=music_group.id %}" type="button" class="btn btn-outline-light py-3 w-100 mb-3">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

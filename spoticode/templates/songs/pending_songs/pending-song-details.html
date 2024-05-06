@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row vh-100 bg-secondary rounded align-items-top justify-content-center mx-0">
+
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h4 class="text-center mb-4"> Pending Song Details</h4>
+                <h5 class="text-center mb-4">{{ pending_song }}</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent">Group: {{ pending_song.to_group }}</li>
+                    <li class="list-group-item bg-transparent">Added: {{ pending_song.is_added }} </li>
+                    <li class="list-group-item bg-transparent">New Artist: {{ pending_song.new_artist }}</li>
+                    <li class="list-group-item bg-transparent">ID: {{ pending_song.pending_id }}</li>
+                </ul>
+
+                <div class="bg-secondary rounded h-50 p-4">
+                    <div class="btn-group d-flex justify-content-center" role="group" style="margin-top: 20px;">
+                        {% if can_edit_check%}
+                            <a href="{% url 'pending_song_edit' id=pending_song.pending_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-pen me-2"></i>Edit</a>
+                        {% endif %}
+                        {% if can_delete_check%}
+                            <a href="{% url 'pending_song_delete' id=pending_song.pending_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-eraser me-2"></i>Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

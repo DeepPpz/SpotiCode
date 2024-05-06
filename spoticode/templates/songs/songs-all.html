@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row vh-1000 bg-secondary rounded align-items-center justify-content-center mx-0">
+
+        <!-- Add Button -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                {% if can_create_check %}
+                    <a href="{% url 'song_create' %}" type="button" class="btn btn-outline-primary m-2">Add New Song</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Search Field -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <form action="{% url 'songs_all' %}" method="GET" class="d-none d-md-flex ms-4">
+                    <input class="form-control" type="text" name="query" placeholder="Search songs...">
+                    <button type="submit" name="search-btn" class="btn btn-outline-light m-2">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Table Titles -->
+        <div class="col-sm-12 col-xl-10">
+            <div class="bg-secondary rounded h-100 p-4">
+
+                {% if not songs %}
+                    <h4 class="text-left">No Songs</h4>
+                {% else %}
+                    <h3 class="text-left">Total Songs: {{ total_songs }}</h3>
+                {% endif %}
+
+                <!-- Table -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align:center">Song</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for song in page_obj %}
+                            <tr>
+                                <td style="text-align:center" >{{ song }}</td>
+                                <td><a href="{% url 'song_details' id=song.song_id %}" class="details-btn">Details</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+            
+        <!-- Pages -->
+        <div class="pagination justify-content-center align-items-center mt-4">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a href="?page=1" class="btn btn-primary">&laquo;</a>
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary" >&lt;</a>
+                    {% else %}
+                        <a href="?page=1" class="btn btn-primary" >&lt;</a>
+                    {% endif %}
+                    <a href="?page={{ page_obj.number }}" class="btn btn-primary" >{{ page_obj.number }}</a>
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary" >&gt;</a>
+                    {% else %}
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-primary" >&gt;</a>
+                    {% endif %}
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-primary">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

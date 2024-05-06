@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row vh-100 bg-secondary rounded align-items-top justify-content-center mx-0">
+
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h4 class="text-center mb-4">Profile Details</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent">Name: {{ user.first_name }} {{ user.last_name }}</li>
+                    <li class="list-group-item bg-transparent">Username: {{ user.username }} </li>
+                    <li class="list-group-item bg-transparent">Email: {{ user.email }} </li>
+                    <li class="list-group-item bg-transparent">User Group: {{ user_group }}</li>
+                </ul>
+
+                <div class="bg-secondary rounded h-50 p-4">
+                    <div class="btn-group d-flex justify-content-center" role="group" style="margin-top: 20px;">
+                        <a href="{% url 'user_edit' id=user.id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-pen me-2"></i>Edit Info</a>
+                        <a href="{% url 'user_password_change' id=user.id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-lock me-2"></i>Change Password</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

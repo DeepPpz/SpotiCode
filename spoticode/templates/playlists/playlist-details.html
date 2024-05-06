@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    
+<div class="container-fluid pt-4 px-4">
+    <div class="row vh-100 bg-secondary rounded align-items-top justify-content-center mx-0">
+
+        <div class="col-sm-12 col-xl-8">
+            <div class="bg-secondary rounded h-100 p-4">
+                    <div class="d-flex justify-content-center mb-2">
+                        {% if playlist.playlist_image %}
+                            <img class="img-fluid mx-auto mb-2" src="{{ playlist.playlist_image.url }}" alt="playlist-image" width="100" height="100"/>
+                        {% endif %}
+                    </div>
+                    <h4 class="text-center mb-3">Playlist Details</h4>
+                    <h5 class="text-center mb-3">{{ playlist }}</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent">Total Songs: {{ playlist.songs_local }}</li>
+                    <li class="list-group-item bg-transparent">Total Songs on Spotify: {{ playlist.songs_spotify }} </li>
+                    <li class="list-group-item bg-transparent">Notes: {{ playlist.notes }}</li>
+                    <li class="list-group-item bg-transparent">ID: {{ playlist.playlist_id }}</li>
+                    {% if playlist.playlist_link %}
+                        <a href="{{ playlist.playlist_link }}" class="list-group-item bg-transparent"> Spotify Link: Yes </a>
+                    {% else %}
+                        <li class="list-group-item bg-transparent">Spotify Link: No</li>
+                    {% endif %}
+                </ul>
+
+                <div class="bg-secondary rounded h-20 p-4">
+                    <div class="btn-group d-flex justify-content-center" role="group" style="margin-top: 5px;">
+                        <a href="{% url 'playlist_songs_all' id=playlist.playlist_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-list me-2"></i>Show Songs</a>
+                        {% if can_edit_check %}
+                            <a href="{% url 'playlist_edit' id=playlist.playlist_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-pen me-2"></i>Edit</a>
+                        {% endif %}
+                        {% if can_delete_check %}
+                            <a href="{% url 'playlist_delete' id=playlist.playlist_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-eraser me-2"></i>Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

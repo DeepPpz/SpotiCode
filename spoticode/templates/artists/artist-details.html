@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row vh-100 bg-secondary rounded align-items-top justify-content-center mx-0">
+
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h4 class="text-center mb-4">Artist Details</h4>
+                <h5 class="text-center mb-4">{{ artist }}</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent">Other Names: {{ artist.other_names }}</li>
+                    <li class="list-group-item bg-transparent">Total Songs: {{ artist.songs_count }} </li>
+                    <li class="list-group-item bg-transparent">Total Albums: {{ artist.albums_count }}</li>
+                    <li class="list-group-item bg-transparent">ID: {{ artist.artist_id }}</li>
+
+                    {% if artist_links.official_website %}
+                        <a href="{{ artist_links.official_website }}" class="list-group-item bg-transparent">Official Website: Yes</a>
+                    {% else %}
+                        <li class="list-group-item bg-transparent">Official Website: No</li>
+                    {% endif %}
+
+                    {% if artist_links.spotify_link %}
+                        <a href="{{ artist_links.spotify_link }}" class="list-group-item bg-transparent">Spotify Link: Yes</a>
+                    {% else %}
+                        <li class="list-group-item bg-transparent">Spotify Link: No</li>
+                    {% endif %}
+
+                    {% if artist_links.wikipedia_link %}
+                        <a href="{{ artist_links.wikipedia_link }}" class="list-group-item bg-transparent">Wikipedia Link: Yes</a>
+                    {% else %}
+                        <li class="list-group-item bg-transparent">Wikipedia Link: No</li>
+                    {% endif %}
+                </ul>
+
+                <div class="bg-secondary rounded h-20 p-4">
+                    <div class="btn-group d-flex justify-content-center" role="group" style="margin-top: 20px;">
+                        {% if can_edit_check %}
+                            <a href="{% url 'artist_info_edit' id=artist.artist_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-pen me-2"></i>Edit Info</a>
+                            <a href="{% url 'artist_links_edit' id=artist.artist_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-link me-2"></i>Edit Links</a>
+                        {% endif %}
+                        {% if can_delete_check %}
+                            <a href="{% url 'artist_delete' id=artist.artist_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-eraser me-2"></i>Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

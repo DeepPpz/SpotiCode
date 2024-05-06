@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<!-- 500 Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row vh-100 bg-secondary rounded align-items-center justify-content-center mx-0">
+            <div class="col-md-8 text-center p-4">
+                <i class="bi bi-exclamation-triangle display-1 text-primary"></i>
+                <h2 class="display-1 fw-bold">Error 500</h2>
+                <h2 class="mb-4">Server Error</h2>
+                <p class="mb-2">Whoops, something went wrong with the website.</p>
+                <p class="mb-4">Check if something is not right on your end or try to annoy an Admin with the following error:</p>
+                <p class="mb-4">"{{ 500_error }}"</p>
+                <a class="btn btn-primary rounded-pill py-3 px-5" href="{% url 'homepage' %}">Go Back To Home</a>
+            </div>
+        </div>
+    </div>
+<!-- 500 End -->
+
+{% endblock %}
