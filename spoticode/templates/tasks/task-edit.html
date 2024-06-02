@@ -7,17 +7,17 @@
 
         <div class="col-sm-12 col-xl-6">
             <div class="bg-secondary rounded h-100 p-4">
-                <h4 class="mb-4 text-center">Edit Music Group</h4>
+                <h4 class="mb-4 text-center">Edit Task</h4>
 
                 <div class="form-floating mb-3">
-                    <form method="post" action="{% url 'music_group_edit' id=music_group.group_id %}">
+                    <form method="post" action="{% url 'task_edit' id=task.task_id %}">
                         {% csrf_token %}
                         {{ form }}
 
                         <button type="submit" class="btn btn-primary py-3 w-100 mb-3">Save</button>
                     </form>
 
-                    <a href="{% url 'music_group_details' id=music_group.group_id %}" type="button" class="btn btn-outline-light py-3 w-100 mb-3">Back</a>
+                    <a href="{% url 'task_details' id=task.task_id %}" type="button" class="btn btn-outline-light py-3 w-100 mb-3">Back</a>
                 </div>
             </div>
         </div>

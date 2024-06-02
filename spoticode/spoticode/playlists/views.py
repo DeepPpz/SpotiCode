@@ -93,7 +93,7 @@ def edit_playlist_info(request, id):
                 playlist.playlist_link = playlist_link
             
             form.save()
-            return redirect('playlist_details', id=id)
+            return redirect('playlist_details', id=playlist.playlist_id)
     
     else:
         form = EditPlaylistForm(instance=playlist)
@@ -102,7 +102,6 @@ def edit_playlist_info(request, id):
         'curr_year': datetime.now().year,
         'playlist': playlist,
         'form': form,
-        'id': id,
     }
     
     return render(request, 'playlists/playlist-info-edit.html', context)

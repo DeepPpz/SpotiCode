@@ -79,13 +79,12 @@ def edit_artist_info(request, id):
     
     if request.method == 'POST' and form.is_valid():
         form.save()
-        return redirect('artist_details', id=id)
+        return redirect('artist_details', id=artist.artist_id)
     
     context = {
         'curr_year': datetime.now().year,
         'artist': artist,
         'form': form,
-        'id': id,
     }
     
     return render(request, 'artists/artist-info-edit.html', context)
@@ -113,14 +112,13 @@ def edit_artist_links(request, id):
             artist_links.wikipedia_link = None
         
         form.save()
-        return redirect('artist_details', id=id)
+        return redirect('artist_details', id=artist.artist_id)
     
     context = {
         'curr_year': datetime.now().year,
         'artist_links': artist_links,
         'form': form,
         'artist': artist,
-        'id': id,
     }
     
     return render(request, 'artists/artist-links-edit.html', context)

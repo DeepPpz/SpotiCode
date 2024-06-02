@@ -25,12 +25,12 @@ class SongsLinksNoLinksFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return (
-            ('No Links', _('No Links')),
-            ('With Links', _('With Links')),
+            ('links', _('Links')),
+            ('no_links', _('No Links')),
         )
 
     def queryset(self, request, queryset):
-        if self.value() == 'No Links':
-            return queryset.filter(spotify_link__isnull=True)
-        elif self.value() == 'With Links':
+        if self.value() == 'links':
             return queryset.filter(spotify_link__isnull=False)
+        elif self.value() == 'no_links':
+            return queryset.filter(spotify_link__isnull=True)

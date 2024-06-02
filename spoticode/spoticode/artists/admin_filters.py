@@ -6,7 +6,7 @@ from spoticode.artists.models import Artist
 
 class ArtistsFirstLetterFilter(admin.SimpleListFilter):
     title = _('First Letter')
-    parameter_name = 'artist_name'
+    parameter_name = 'artist_name_letter'
     
     def lookups(self, request, model_admin):
         all_artist_names = Artist.objects.values_list('artist_name', flat=True)
@@ -22,27 +22,33 @@ class ArtistsFirstLetterFilter(admin.SimpleListFilter):
 class ArtistLinksFilter(admin.SimpleListFilter):
     title = _('Links')
     parameter_name = 'links'
-
+    
     def lookups(self, request, model_admin):
         return (
-            ('With Official Website', _('With Official Website')),
-            ('No Official Website', _('No Official Website')),
-            ('With Spotify', _('With Spotify')),
-            ('No Spotify', _('No Spotify')),
-            ('With Wikipedia', _('With Wikipedia')),
-            ('No Wikipedia', _('No Wikipedia')),
+            ('official_website', _('Official Website')),
+            ('no_official_website', _('No Official Website')),
+            ('spotify', _('Spotify')),
+            ('no_spotify', _('No Spotify')),
+            ('wikipedia', _('Wikipedia')),
+            ('no_wikipedia', _('No Wikipedia')),
+            ('rateyourmusic', _('RateYourMusic')),
+            ('no_rateyourmusic', _('No RateYourMusic')),
         )
 
     def queryset(self, request, queryset):
-        if self.value() == 'With Official Website':
+        if self.value() == 'official_website':
             return queryset.filter(official_website__isnull=False)
-        elif self.value() == 'No Official Website':
+        elif self.value() == 'no_official_website':
             return queryset.filter(official_website__isnull=True)
-        elif self.value() == 'With Spotify':
+        elif self.value() == 'spotify':
             return queryset.filter(spotify_link__isnull=False)
-        elif self.value() == 'No Spotify':
+        elif self.value() == 'no_spotify':
             return queryset.filter(spotify_link__isnull=True)
-        elif self.value() == 'With Wikipedia':
+        elif self.value() == 'wikipedia':
             return queryset.filter(wikipedia_link__isnull=False)
-        elif self.value() == 'No Wikipedia':
+        elif self.value() == 'no_wikipedia':
             return queryset.filter(wikipedia_link__isnull=True)
+        elif self.value() == 'rateyourmusic':
+            return queryset.filter(rateroumusic_link__is_null=False)
+        elif self.value() == 'no_rateyourmusic':
+            return queryset.filter(rateroumusic_link__is_null=True)

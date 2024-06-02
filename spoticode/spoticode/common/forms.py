@@ -29,18 +29,20 @@ class EditMusicGroupForm(forms.ModelForm):
 class CreateGenreForm(forms.ModelForm):
     class Meta:
         model = Genre
-        fields = ('genre_name', )
+        fields = ('genre_name', 'description')
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['genre_name'].widget.attrs.update({'class': 'form-control mb-4'})
+        self.fields['genre_name'].widget.attrs.update({'class': 'form-control mb-3'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control mb-4'})
 
 
 class EditGenreForm(forms.ModelForm):
     class Meta:
         model = Genre
-        fields = ('genre_name', )
+        fields = ('genre_name', 'description')
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['genre_name'].widget.attrs.update({'class': 'form-control mb-4'})
+        self.fields['genre_name'].widget.attrs.update({'class': 'form-control mb-3'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control mb-4'})

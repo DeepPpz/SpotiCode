@@ -160,6 +160,7 @@ cython_debug/
 **/migrations/*.py
 /media/
 /migrations/
+caller.py
 
 # Other ignores
 /darkpan-1.0.0/

@@ -13,7 +13,7 @@ class AlbumsReleaseDateFilter(admin.SimpleListFilter):
             ('2000-2010', _('2000-2010')),
             ('2011-2020', _('2011-2020')),
             ('2021-2030', _('2021-2030')),
-            ('None', _('None')),
+            ('none', _('None')),
         )
 
     def queryset(self, request, queryset):
@@ -27,7 +27,7 @@ class AlbumsReleaseDateFilter(admin.SimpleListFilter):
             return queryset.filter(release_date__range=['2011-01-01', '2020-12-31'])
         elif self.value() == '2021-2030':
             return queryset.filter(release_date__range=['2021-01-01', '2030-12-31'])
-        elif self.value() == 'None':
+        elif self.value() == 'none':
             return queryset.filter(release_date__isnull=True)
 
 
@@ -37,18 +37,41 @@ class AlbumLinksFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return (
-            ('With Spotify', _('With Spotify')),
-            ('No Spotify', _('No Spotify')),
-            ('With Wikipedia', _('With Wikipedia')),
-            ('No Wikipedia', _('No Wikipedia')),
+            ('spotify', _('Spotify')),
+            ('no_spotify', _('No Spotify')),
+            ('wikipedia', _('Wikipedia')),
+            ('no_wikipedia', _('No Wikipedia')),
+            ('rateyourmusic', _('RateYourMusic')),
+            ('no_rateyourmusic', _('No RateYourMusic')),
         )
 
     def queryset(self, request, queryset):
-        if self.value() == 'With Spotify':
+        if self.value() == 'spotify':
             return queryset.filter(spotify_link__isnull=False)
-        elif self.value() == 'No Spotify':
+        elif self.value() == 'no_spotify':
             return queryset.filter(spotify_link__isnull=True)
-        elif self.value() == 'With Wikipedia':
+        elif self.value() == 'wikipedia':
             return queryset.filter(wikipedia_link__isnull=False)
-        elif self.value() == 'No Wikipedia':
+        elif self.value() == 'no_wikipedia':
             return queryset.filter(wikipedia_link__isnull=True)
+        elif self.value() == 'rateyourmusic':
+            return queryset.filter(rateroumusic_link__is_null=False)
+        elif self.value() == 'no_rateyourmusic':
+            return queryset.filter(rateroumusic_link__is_null=True)
+
+
+class AvailableTracksFilter(admin.SimpleListFilter):
+    title = _('Availability')
+    parameter_name = 'tracks_available'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('yes', _('Yes')),
+            ('no', _('No')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'yes':
+            return queryset.filter(song_id__isnull=False)
+        elif self.value() == 'no':
+            return queryset.filter(song_id__isnull=True)

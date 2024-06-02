@@ -13,16 +13,16 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item bg-transparent">Total Songs: {{ music_group.songs_count }}</li>
                     <li class="list-group-item bg-transparent">Total Pending Songs: {{ music_group.pending_count }} </li>
-                    <li class="list-group-item bg-transparent">ID: {{ music_group.id }}</li>
+                    <li class="list-group-item bg-transparent">ID: {{ music_group.group_id }}</li>
                 </ul>
 
                 <div class="bg-secondary rounded h-50 p-4">
                     <div class="btn-group d-flex justify-content-center" role="group" style="margin-top: 20px;">
                         {% if can_edit_check %}
-                            <a href="{% url 'music_group_edit' id=music_group.id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-pen me-2"></i>Edit</a>
+                            <a href="{% url 'music_group_edit' id=music_group.group_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-pen me-2"></i>Edit</a>
                         {% endif %}
                         {% if is_staff_check %}
-                            <a href="{% url 'music_group_delete' id=music_group.id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-eraser me-2"></i>Delete</a>
+                            <a href="{% url 'music_group_delete' id=music_group.group_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-eraser me-2"></i>Delete</a>
                         {% endif %}
                     </div>
                 </div>

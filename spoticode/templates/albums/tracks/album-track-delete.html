@@ -1,23 +1,23 @@
 {% extends "base.html" %}
 
 {% block main_content %}
-      
+
 <div class="container-fluid pt-4 px-4">
   <div class="row vh-100 bg-secondary rounded align-items-center justify-content-center mx-0">
 
     <div class="col-sm-12 col-xl-6">
       <div class="bg-secondary rounded h-100 p-4">
-        <h3 class="mb-4 text-center">Delete Music Group</h3>
+        <h3 class="mb-4 text-center">Delete Album Track</h3>
 
-        <h4 class="mb-4 text-center">Are you sure you want to delete {{ music_group }}?</h4>
+        <h4 class="mb-4 text-center">Are you sure you want to delete {{ album_track }}?</h4>
 
-        <form method="post" action="{% url 'music_group_delete' id=music_group.group_id %}">
+        <form method="post" action="{% url 'album_track_delete' id=album.album_id tr_id=album_track.track_id %}">
 
           <input class="btn btn-primary py-3 w-100 mb-3" type="submit" value="Delete">
             {% csrf_token %}
         </form>
 
-          <a href="{% url 'music_group_details' id=music_group.group_id %}" type="button" class="btn btn-outline-light py-3 w-100 mb-3">Back</a>
+          <a href="{% url 'album_details' id=album.album_id %}" type="button" class="btn btn-outline-light py-3 w-100 mb-3">Back</a>
       </div>
     </div>
 

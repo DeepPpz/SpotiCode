@@ -2,10 +2,6 @@ import random, string
 # Django
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-# Project
-from spoticode.albums.models import Album
-from spoticode.artists.models import Artist
-from spoticode.common.models import Genre, MusicGroup
 
 
 class Song(models.Model):
@@ -15,21 +11,21 @@ class Song(models.Model):
     song_id = models.CharField(primary_key=True, blank=True, 
                                db_column='song_id', verbose_name='Song ID')
     song_title = models.CharField(db_column='song_title', verbose_name='Title')
-    main_artist = models.ForeignKey(Artist, to_field='artist_name', on_delete=models.RESTRICT, 
+    main_artist = models.ForeignKey(to='artists.Artist', to_field='artist_name', on_delete=models.RESTRICT, 
                                     db_column='main_artist', verbose_name='Artist')
     feat_artist = models.CharField(null=True, blank=True, 
                                    db_column='feat_artist', verbose_name='Feat. Artists')
-    genre = models.ForeignKey(Genre, to_field='genre_name', on_delete=models.RESTRICT, 
+    genre = models.ForeignKey(to='common.Genre', to_field='genre_name', on_delete=models.RESTRICT, 
                               null=True, blank=True, 
                               db_column='genre', verbose_name='Genre')
     song_year = models.IntegerField(null=True, blank=True, 
                                     validators=[MinValueValidator(YEAR_MIN_VALUE, 'First recording is in 1860. Have you found new history?'), 
                                                 MaxValueValidator(YEAR_MAX_VALUE, 'Woah, are you coming from the future?')], 
                                     db_column='song_year', verbose_name='Release Year')
-    group = models.ForeignKey(MusicGroup, to_field='group_name', on_delete=models.SET_DEFAULT, 
+    group = models.ForeignKey(to='common.MusicGroup', to_field='group_name', on_delete=models.SET_DEFAULT, 
                               blank=True, default='Unspecified', 
                               db_column='group', verbose_name='Group')
-    album_id = models.ForeignKey(Album, to_field='album_id', on_delete=models.RESTRICT, 
+    album_id = models.ForeignKey(to='albums.Album', to_field='album_id', on_delete=models.RESTRICT, 
                                  null=True, blank=True, 
                                  db_column='album_id', verbose_name='Album')
     spotify_link = models.URLField(unique=True, null=True, blank=True, 
@@ -63,7 +59,7 @@ class PendingSong(models.Model):
     main_artist = models.CharField(db_column='main_artist', verbose_name='Artist')
     feat_artist = models.CharField(null=True, blank=True, 
                                    db_column='feat_artist', verbose_name='Feat. Artist')
-    to_group = models.ForeignKey(MusicGroup, to_field='group_name', on_delete=models.SET_DEFAULT, 
+    to_group = models.ForeignKey(to='common.MusicGroup', to_field='group_name', on_delete=models.SET_DEFAULT, 
                                  blank=True, default='Unspecified', 
                                  db_column='to_group', verbose_name='Group')
     is_added = models.BooleanField(blank=True, default=False, 

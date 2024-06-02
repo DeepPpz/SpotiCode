@@ -15,5 +15,13 @@ urlpatterns = [
             path('info/', views.edit_album_info, name='album_info_edit'),
             path('links/', views.edit_album_links, name='album_links_edit'),
         ])),
+        
+        path('track/', include([
+            path('create/', views.create_album_track, name='album_track_create'),
+            path('<str:tr_id>/', include([
+                path('delete/', views.delete_album_track, name='album_track_delete'),
+                path('edit/', views.edit_album_track, name='album_track_edit'),
+            ])),
+        ])),
     ])),
 ]

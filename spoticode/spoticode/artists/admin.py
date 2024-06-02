@@ -20,8 +20,8 @@ class ArtistAdmin(admin.ModelAdmin):
 
 @admin.register(ArtistLink)
 class ArtistLinkAdmin(admin.ModelAdmin):
-    list_display = ('artist', 'official_website', 'spotify_link', 'wikipedia_link')
-    search_fields = ('artist_id__artist_name',)
+    list_display = ('artist', 'official_website', 'spotify_link', 'wikipedia_link', 'rateyourmusic_link')
+    search_fields = ('artist_id__artist_name', 'artist_id__other_names')
     list_filter = (
         (ArtistLinksFilter),
         (ArtistsFirstLetterFilter), 

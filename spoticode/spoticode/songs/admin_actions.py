@@ -20,5 +20,5 @@ def copy_to_songs_table(modeladmin, request, queryset):
             song_title=new_song.song_title,
             main_artist=artist,
             feat_artist=new_song.feat_artist,
-            the_group=group,
+            group=group,
     )

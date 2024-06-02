@@ -10,14 +10,14 @@
                 <h4 class="mb-4 text-center">Edit Genre</h4>
 
                 <div class="form-floating mb-3">
-                    <form method="post" action="{% url 'genre_edit' id=genre.id %}">
+                    <form method="post" action="{% url 'genre_edit' id=genre.genre_id %}">
                         {% csrf_token %}
                         {{ form }}
 
                         <button type="submit" class="btn btn-primary py-3 w-100 mb-3">Save</button>
                     </form>
 
-                    <a href="{% url 'genre_details' id=genre.id %}" type="button" class="btn btn-outline-light py-3 w-100 mb-3">Back</a>
+                    <a href="{% url 'genre_details' id=genre.genre_id %}" type="button" class="btn btn-outline-light py-3 w-100 mb-3">Back</a>
                 </div>
             </div>
         </div>

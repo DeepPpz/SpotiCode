@@ -9,11 +9,7 @@
         <div class="col-sm-12 col-xl-6">
             <div class="bg-secondary rounded h-100 p-4">
                 {% if can_create_check %}
-                    <a href="{% url 'pending_song_create' %}" type="button" class="btn btn-outline-primary m-2">Add New Song</a>
-                {% endif %}
-
-                {% if is_staff_check and added_songs %}
-                    <a href="{% url 'pending_song_multiple_delete' %}" class="btn btn-outline-primary m-2"> Delete Existing Songs </a>
+                    <a href="{% url 'task_create' %}" type="button" class="btn btn-outline-primary m-2">Add New Task</a>
                 {% endif %}
             </div>
         </div>
@@ -21,8 +17,8 @@
         <!-- Search Field -->
         <div class="col-sm-12 col-xl-6">
             <div class="bg-secondary rounded h-100 p-4">
-                <form action="{% url 'pending_songs_all' %}" method="GET" class="d-none d-md-flex ms-4">
-                    <input class="form-control" type="text" name="query" placeholder="Search songs...">
+                <form action="{% url 'tasks_all' %}" method="GET" class="d-none d-md-flex ms-4">
+                    <input class="form-control" type="text" name="query" placeholder="Search tasks...">
                     <button type="submit" name="search-btn" class="btn btn-outline-light m-2">Search</button>
                 </form>
             </div>
@@ -33,27 +29,29 @@
 
             <div class="bg-secondary rounded h-100 p-4">
 
-                {% if not pending_songs %}
-                    <h4 class="text-left">No Pending Songs</h4>
+                {% if total_active_tasks == 0 %}
+                    <h4 class="text-left">No Active Tasks</h4>
                 {% else %}
-                    <h3 class="text-left">Total Pending Songs: {{ total_pending_songs }}</h3>
+                    <h3 class="text-left">Total Active Tasks: {{ total_active_tasks }}</h3>
                 {% endif %}
 
                 <!-- Table -->
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col" style="text-align:center">Song</th>
-                            <th scope="col" style="text-align:center">New Artist</th>
+                            <th scope="col" style="text-align:center">Task</th>
+                            <th scope="col" style="text-align:center">App</th>
+                            <th scope="col" style="text-align:center">Status</th>
                             <th scope="col" style="text-align:center"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for song in page_obj %}
+                        {% for task in page_obj %}
                             <tr>
-                                <td style="text-align:center" >{{ song }}</td>
-                                <td style="text-align:center" >{{ song.new_artist }}</td>
-                                <td><a href="{% url 'pending_song_details' id=song.pending_id %}" class="details-btn" style="text-align:center">Details</a></td>
+                                <td style="text-align:center">{{ task }}</td>
+                                <td style="text-align:center">{{ task.related_app }}</td>
+                                <td style="text-align:center">{{ task.status }}</td>
+                                <td><a href="{% url 'task_details' id=task.task_id %}" class="details-btn">Details</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -85,5 +83,5 @@
 
     </div>
 </div>
-    
+
 {% endblock %}

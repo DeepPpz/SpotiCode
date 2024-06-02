@@ -1,8 +1,6 @@
 import random, string
 # Django
 from django.db import models
-# Project
-from spoticode.songs.models import Song
 
 
 class Playlist(models.Model):
@@ -42,19 +40,19 @@ class Playlist(models.Model):
 
 
 class SongPlaylistRelation(models.Model):
-    id = models.CharField(primary_key=True, blank=True, 
-                          db_column='id', verbose_name='ID')
-    playlist_id = models.ForeignKey(Playlist, to_field='playlist_id', on_delete=models.CASCADE, 
+    relation_id = models.CharField(primary_key=True, blank=True, 
+                                   db_column='id', verbose_name='ID')
+    playlist_id = models.ForeignKey(to='playlists.Playlist', to_field='playlist_id', on_delete=models.CASCADE, 
                                     db_column='playlist_id', verbose_name='Playlist ID')
-    song_id = models.ForeignKey(Song, to_field='song_id', on_delete=models.CASCADE, 
+    song_id = models.ForeignKey(to='songs.Song', to_field='song_id', on_delete=models.CASCADE, 
                                 db_column='song_id', verbose_name='Song ID')
 
     def save(self, *args, **kwargs):
-        if not self.id:
+        if not self.relation_id:
             random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=7))
-            while SongPlaylistRelation.objects.filter(id=random_part).exists():
+            while SongPlaylistRelation.objects.filter(relation_id=random_part).exists():
                 random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=7))
-            self.id = random_part  
+            self.relation_id = random_part  
         super().save(*args, **kwargs)
     
     class Meta:

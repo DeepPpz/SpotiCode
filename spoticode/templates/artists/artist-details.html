@@ -32,6 +32,12 @@
                     {% else %}
                         <li class="list-group-item bg-transparent">Wikipedia Link: No</li>
                     {% endif %}
+
+                    {% if artist_links.rateyourmusic_link %}
+                        <a href="{{ artist_links.rateyourmusic_link }}" class="list-group-item bg-transparent">RateYourMusic Link: Yes</a>
+                    {% else %}
+                        <li class="list-group-item bg-transparent">RateYourMusic Link: No</li>
+                    {% endif %}
                 </ul>
 
                 <div class="bg-secondary rounded h-20 p-4">

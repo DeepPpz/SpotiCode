@@ -25,7 +25,7 @@
         </div>
 
         <!-- Table Titles -->
-        <div class="col-sm-12 col-xl-10">
+        <div class="col-sm-12 col-xl-8">
             <div class="bg-secondary rounded h-100 p-4">
 
                 {% if not genres %}
@@ -38,6 +38,7 @@
                     <thead>
                         <tr>
                             <th scope="col" style="text-align:center">Genre Name</th>
+                            <th scope="col" style="text-align:center">Total Songs</th>
                             <th scope="col">Details</th>
                         </tr>
                     </thead>
@@ -45,7 +46,8 @@
                         {% for genre in page_obj %}
                             <tr>
                                 <td style="text-align:center" >{{ genre }}</td>
-                                <td><a href="{% url 'genre_details' id=genre.id %}" class="details-btn">Details</a></td>
+                                <td style="text-align:center" >{{ genre.songs_count }}</td>
+                                <td><a href="{% url 'genre_details' id=genre.genre_id %}" class="details-btn">Details</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

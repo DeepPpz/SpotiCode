@@ -44,7 +44,7 @@ class Task(models.Model):
                                        db_column='date_closed', verbose_name='Date Closed')
     task_name = models.CharField(max_length=50, 
                                  db_column='task_name', verbose_name='Task Name')
-    related_app = models.CharField(choices=get_app_choices(), default='Accounts', 
+    related_app = models.CharField(choices=get_app_choices(), default='Administration', 
                                    db_column='related_app', verbose_name='Related App')
     responsible = models.ForeignKey(User, to_field='username', on_delete=models.SET_NULL, 
                                     null=True, blank=True, 
@@ -66,6 +66,10 @@ class Task(models.Model):
             while Task.objects.filter(task_id=random_part).exists():
                 random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
             self.task_id = random_part
+            
+            if not self.date_created:
+                self.date_created = datetime.now()
+        
         else:
             try:
                 old = Task.objects.get(task_id=self.task_id)
@@ -102,17 +106,10 @@ class TaskComment(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.comment_id:
-            random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+            random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
             while TaskComment.objects.filter(comment_id=random_part).exists():
-                random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
-            self.comment_id = random_part   
-            
-        if not self.user:
-            try:
-                self.user = kwargs.pop('user')
-            except User.DoesNotExist:
-                self.user = get_default_user()
-        
+                random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
+            self.comment_id = random_part
         super().save(*args, **kwargs)
     
     class Meta:

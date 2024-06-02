@@ -99,7 +99,7 @@ def add_song_to_playlist(request, id):
             
             SongPlaylistRelation.objects.create(playlist_id=playlist, song_id=song)
             
-            return redirect('song_details', id=id)
+            return redirect('song_details', id=song.song_id)
     else:
         form = AddSongToPlaylistForm(song_id=id)
     
@@ -107,7 +107,6 @@ def add_song_to_playlist(request, id):
         'curr_year': datetime.now().year,
         'form': form,
         'song': song,
-        'id': id,
     }
     
     return render(request, 'songs/song-add-to-playlist.html', context)
@@ -127,13 +126,12 @@ def edit_song(request, id):
             song.spotify_link = spotify_link
         
         form.save()
-        return redirect('song_details', id=id)
+        return redirect('song_details', id=song.song_id)
     
     context = {
         'curr_year': datetime.now().year,
         'song': song,
         'form': form,
-        'id': id,
     }
     
     return render(request, 'songs/song-edit.html', context)
@@ -229,13 +227,12 @@ def edit_pending_song(request, id):
     
     if request.method == 'POST' and form.is_valid():
         form.save()
-        return redirect('pending_song_details', id=id)
+        return redirect('pending_song_details', id=pending_song.pending_id)
     
     context = {
         'curr_year': datetime.now().year,
         'pending_song': pending_song,
         'form': form,
-        'id': id,
     }
     
     return render(request, 'songs/pending_songs/pending-song-edit.html', context)

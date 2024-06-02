@@ -7,8 +7,8 @@ class MusicGroup(models.Model):
     GROUP_NAME_MAX_LENGTH = 100
     COUNTER_DEFAULT = 0
     
-    id = models.CharField(primary_key=True, blank=True, 
-                          db_column='id', verbose_name='ID')
+    group_id = models.CharField(primary_key=True, blank=True, 
+                                db_column='id', verbose_name='ID')
     group_name = models.CharField(max_length=GROUP_NAME_MAX_LENGTH, unique=True, 
                                   db_column='group_name', verbose_name='Group Name')
     songs_count = models.IntegerField(blank=True, default=COUNTER_DEFAULT, 
@@ -20,11 +20,11 @@ class MusicGroup(models.Model):
         return self.group_name
     
     def save(self, *args, **kwargs):
-        if not self.id:
+        if not self.group_id:
             random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=4))
-            while MusicGroup.objects.filter(id=random_part).exists():
+            while MusicGroup.objects.filter(group_id=random_part).exists():
                 random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=4))
-            self.id = random_part
+            self.group_id = random_part
         super().save(*args, **kwargs)
 
     class Meta:
@@ -38,10 +38,12 @@ class Genre(models.Model):
     GENRE_NAME_MAX_LENGTH = 100
     COUNTER_DEFAULT = 0
     
-    id = models.CharField(primary_key=True, blank=True, 
-                          db_column='id', verbose_name='ID')
+    genre_id = models.CharField(primary_key=True, blank=True, 
+                                db_column='id', verbose_name='ID')
     genre_name = models.CharField(max_length=GENRE_NAME_MAX_LENGTH, unique=True, 
                                   db_column='genre_name', verbose_name='Genre')
+    description = models.TextField(null=True, blank=True,
+                                   db_column='description', verbose_name='Description')
     songs_count = models.IntegerField(default=COUNTER_DEFAULT, 
                                       db_column='songs_count', verbose_name='Total Songs')
     
@@ -49,11 +51,11 @@ class Genre(models.Model):
         return self.genre_name
     
     def save(self, *args, **kwargs):
-        if not self.id:
+        if not self.genre_id:
             random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
-            while Genre.objects.filter(id=random_part).exists():
+            while Genre.objects.filter(genre_id=random_part).exists():
                 random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
-            self.id = random_part
+            self.genre_id = random_part
         super().save(*args, **kwargs)
 
     class Meta:

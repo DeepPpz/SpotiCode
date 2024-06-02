@@ -3,10 +3,11 @@
 {% block main_content %}
 
 <div class="container-fluid pt-4 px-4">
-    <div class="row vh-100 bg-secondary rounded align-items-top justify-content-center mx-0">
+    <div class="row vh-1000 bg-secondary rounded align-items-top justify-content-center mx-0">
 
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-secondary rounded h-100 p-4">
+        <!-- Album Details -->
+        <div class="col-sm-6">
+            <div class="bg-secondary rounded p-4">
                 <h4 class="text-center mb-4">Album Details</h4>
                 <h5 class="text-center mb-4">{{ album }}</h5>
                 <ul class="list-group list-group-flush">
@@ -25,21 +26,88 @@
                     {% else %}
                         <li class="list-group-item bg-transparent">Wikipedia Link: No</li>
                     {% endif %}
+
+                    {% if album_links.rateyourmusic_link %}
+                        <a href="{{ album_links.rateyourmusic_link }}" class="list-group-item bg-transparent">RateYourMusic Link: Yes</a>
+                    {% else %}
+                        <li class="list-group-item bg-transparent">RateYourMusic Link: No</li>
+                    {% endif %}
                 </ul>
 
-                <div class="bg-secondary rounded h-50 p-4">
+                <div class="bg-secondary rounded p-4">
                     <div class="btn-group d-flex justify-content-center" role="group" style="margin-top: 20px;">
                         {% if can_edit_check %}
                             <a href="{% url 'album_info_edit' id=album.album_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-pen me-2"></i>Edit Info</a>
                             <a href="{% url 'album_links_edit' id=album.album_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-link me-2"></i>Edit Links</a>
                         {% endif %}
-                        {% if can_delete_check%}
+                        {% if can_delete_check %}
                             <a href="{% url 'album_delete' id=album.album_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-eraser me-2"></i>Delete</a>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
+        <!-- End Album Details -->
+
+        <!-- Tracks -->
+        <div class="col-sm-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h4 class="text-center mb-4">Album Tracks</h4>
+
+                {% if not album_tracks %}
+                    <h5 class="text-center">No Tracks</h5>
+                {% else %}
+                    <h5 class="text-center">Total Tracks: {{ album_tracks.count }}</h5>
+                {% endif %}
+
+                <!-- Table -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align:center">#</th>
+                            <th scope="col" style="text-align:center">Track</th>
+                            <th scope="col" style="text-align:center">Available</th>
+                            <th scope="col" style="text-align:center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for track in album_tracks %}
+                            <tr>
+                                <td style="text-align:center" >{{ track.track_num }}</td>
+                                <td style="text-align:center" >{{ track }}</td>
+                                <td style="text-align:center" > 
+                                    {% if track.song_id %}
+                                        <a href="{% url 'song_details' id=track.song_id.song_id %}" class="list-group-item bg-transparent">Yes</a>
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if can_edit_check %}
+                                        <a href="{% url 'album_track_edit' id=album.album_id tr_id=track.track_id %}" class="details-btn">Edit</a>
+                                    {% endif %}
+
+                                    {% if can_delete_check %}
+                                        <a href="{% url 'album_track_delete' id=album.album_id tr_id=track.track_id %}" class="details-btn">Delete</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="bg-secondary rounded p-4">
+                    <div class="btn-group d-flex justify-content-center" role="group" style="margin-top: 20px;">
+                        {% if can_create_check %}
+                            <a href="{% url 'album_track_create' id=album.album_id %}" type="button" class="btn btn-outline-primary m-2"><i class="fa fa-plus me-2"></i>Add Track</a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- End Tracks -->
+
     </div>
 </div>
 

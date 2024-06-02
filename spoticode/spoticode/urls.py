@@ -15,7 +15,7 @@ urlpatterns = [
     path('artists/', include('spoticode.artists.urls')),
     path('playlists/', include('spoticode.playlists.urls')),
     path('songs/', include('spoticode.songs.urls')),
-    # path('tasks/', include('spoticode.tasks.urls')),
+    path('tasks/', include('spoticode.tasks.urls')),
 ]
 
 handler404 = 'spoticode.web.views.custom_404_view'

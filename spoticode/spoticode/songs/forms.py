@@ -36,7 +36,7 @@ class EditSongForm(forms.ModelForm):
         self.fields['song_year'].widget.attrs.update({'class': 'form-control mb-3', 'placeholder': 'YYYY'})
         self.fields['group'].widget.attrs.update({'class': 'form-select mb-3'})
         self.fields['album_id'].widget.attrs.update({'class': 'form-select mb-3'})
-        self.fields['spotify_link'].widget.attrs.update({'class': 'form-control mb-4'})
+        self.fields['spotify_link'].widget.attrs.update({'class': 'form-control mb-4', 'placeholder': 'https://open.spotify.com/track/...',})
 
 
 class AddSongToPlaylistForm(forms.Form):

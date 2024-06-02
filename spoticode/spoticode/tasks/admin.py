@@ -1,4 +1,5 @@
 import random, string
+from datetime import datetime
 # Django
 from django.contrib import admin
 # Project
@@ -26,7 +27,7 @@ class TaskAdmin(admin.ModelAdmin):
     
     def get_exclude(self, request, obj=None):
         if obj is None:
-            return ['task_id', 'date_created', 'last_modified', 'date_closed']
+            return ['task_id', 'last_modified']
         return []
 
     def save_model(self, request, obj, form, change):
@@ -36,6 +37,10 @@ class TaskAdmin(admin.ModelAdmin):
                 random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
             obj.task_id = random_part
             print(obj.task_id)
+            
+            if not obj.date_created:
+                obj.date_created = datetime.now()
+                
         super().save_model(request, obj, form, change)
         
 
@@ -65,9 +70,9 @@ class TaskCommentAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         if not obj.comment_id:
-            random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+            random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
             while TaskComment.objects.filter(comment_id=random_part).exists():
-                random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+                random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
             obj.comment_id = random_part
         
         try:

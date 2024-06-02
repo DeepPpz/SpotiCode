@@ -36,6 +36,8 @@ class ArtistLink(models.Model):
                                    db_column='spotify_link', verbose_name='Spotify Link')
     wikipedia_link = models.URLField(null=True, blank=True, unique=True, 
                                      db_column='wikipedia_link', verbose_name='Wikipedia Link')
+    rateyourmusic_link = models.URLField(null=True, blank=True, unique=True, 
+                                         db_column='rateyourmusic_link', verbose_name='Rate Your Music Link')
 
     class Meta:
         db_table = 'artists_links'

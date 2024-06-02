@@ -40,7 +40,7 @@ def show_all_music_groups(request):
 @custom_login_required
 @can_read
 def show_details_music_group(request, id):
-    music_group = get_object_or_404(MusicGroup, id=id)
+    music_group = get_object_or_404(MusicGroup, group_id=id)
 
     context = {
         'curr_year': datetime.now().year,
@@ -59,7 +59,7 @@ def create_music_group(request):
     
     if request.method == 'POST' and form.is_valid():
         music_group = form.save()
-        return redirect('music_group_details', id=music_group.id)
+        return redirect('music_group_details', group_id=music_group.group_id)
     
     context = {
         'curr_year': datetime.now().year,
@@ -72,18 +72,17 @@ def create_music_group(request):
 @custom_login_required
 @can_create_or_update
 def edit_music_group(request, id):
-    music_group = get_object_or_404(MusicGroup, id=id)
+    music_group = get_object_or_404(MusicGroup, group_id=id)
     form = EditMusicGroupForm(request.POST or None, instance=music_group)
     
     if request.method == 'POST' and form.is_valid():
         form.save()
-        return redirect('music_group_details', id=id)
+        return redirect('music_group_details', id=music_group.group_id)
     
     context = {
         'curr_year': datetime.now().year,
         'music_group': music_group,
         'form': form,
-        'id': id,
     }
     
     return render(request, 'common/music_groups/music-group-edit.html', context)
@@ -92,7 +91,7 @@ def edit_music_group(request, id):
 @custom_login_required
 @is_staff
 def delete_music_group(request, id):
-    music_group = get_object_or_404(MusicGroup, id=id)
+    music_group = get_object_or_404(MusicGroup, group_id=id)
     
     if request.method == 'POST':
         music_group.delete()
@@ -137,7 +136,7 @@ def show_all_genres(request):
 @custom_login_required
 @can_read
 def show_details_genre(request, id):
-    genre = get_object_or_404(Genre, id=id)
+    genre = get_object_or_404(Genre, genre_id=id)
     
     context = {
         'curr_year': datetime.now().year,
@@ -156,7 +155,7 @@ def create_genre(request):
     
     if request.method == 'POST' and form.is_valid():
         genre = form.save()
-        return redirect('genre_details', id=genre.id)
+        return redirect('genre_details', id=genre.genre_id)
     
     context = {
         'curr_year': datetime.now().year,
@@ -169,18 +168,17 @@ def create_genre(request):
 @custom_login_required
 @can_create_or_update
 def edit_genre(request, id):
-    genre = get_object_or_404(Genre, id=id)
+    genre = get_object_or_404(Genre, genre_id=id)
     form = EditGenreForm(request.POST or None, instance=genre)
     
     if request.method == 'POST' and form.is_valid():
         form.save()
-        return redirect('genre_details', id=id)
+        return redirect('genre_details', id=genre.genre_id)
     
     context = {
         'curr_year': datetime.now().year,
         'genre': genre,
         'form': form,
-        'id': id,
     }
     
     return render(request, 'common/genres/genre-edit.html', context)
@@ -189,7 +187,7 @@ def edit_genre(request, id):
 @custom_login_required
 @is_staff
 def delete_genre(request, id):
-    genre = get_object_or_404(Genre, id=id)
+    genre = get_object_or_404(Genre, genre_id=id)
     
     if request.method == 'POST':
         genre.delete()

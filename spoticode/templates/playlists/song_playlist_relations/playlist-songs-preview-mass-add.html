@@ -24,6 +24,10 @@
                     <input type="hidden" name="playlist_id" value="{{ playlist.playlist_id }}">
                     <button class="btn btn-primary py-3 w-100 mb-4" type="submit">Mass Add</button>
 
+                    <!-- Button to check all songs -->
+                    <button class="btn btn-primary py-3 w-100 mb-2" type="button" onclick="checkAllSongs()">Check All Songs</button>
+
+
                     <ul class="bg-secondary rounded h-100 p-4">
                         {% for song in songs %}
                             <li>
@@ -36,3 +40,14 @@
         </div>
 
 {% endblock %}
+
+
+<!-- JavaScript function to check all songs -->
+<script>
+    function checkAllSongs() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"][name="songs"]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = true;
+        });
+    }
+</script>
