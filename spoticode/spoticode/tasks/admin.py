@@ -11,7 +11,7 @@ from django_admin_listfilter_dropdown.filters import DropdownFilter
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('task_id', 'task_name', 'formatted_date_created', 'related_app', 'status', 'priority', 'task_type')
+    list_display = ('task_id', 'task_name', 'formatted_date_created', 'task_type','priority', 'related_app', 'responsible', 'status')
     search_fields = ('task_name', 'description')
     list_filter = (
         ('related_app', DropdownFilter),
@@ -24,6 +24,9 @@ class TaskAdmin(admin.ModelAdmin):
     def formatted_date_created(self, obj):
         return obj.date_created.date()
     formatted_date_created.short_description = 'Date Created'
+    
+    def responsible(self, obj):
+        return obj.responsible.username if obj.responsible else '--none--'
     
     def get_exclude(self, request, obj=None):
         if obj is None:

@@ -59,7 +59,7 @@ def create_music_group(request):
     
     if request.method == 'POST' and form.is_valid():
         music_group = form.save()
-        return redirect('music_group_details', group_id=music_group.group_id)
+        return redirect('music_group_details', id=music_group.group_id)
     
     context = {
         'curr_year': datetime.now().year,

@@ -1,8 +1,12 @@
-from datetime import datetime
+from datetime import datetime, time
+import os
 # Django
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
+# Spotify API
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 # Project
 from spoticode.songs.models import Song
 from spoticode.playlists.models import Playlist, SongPlaylistRelation
@@ -201,16 +205,33 @@ def select_songs_for_mass_add(request, id):
 @can_create_or_update
 def mass_add_songs(request, id):
     if request.method == 'POST':
+        spotify_log = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get('CLIENT_ID'),
+                                                    client_secret=os.environ.get('CLIENT_SECRET'),
+                                                    redirect_uri="http://localhost:8000/",
+                                                    scope="playlist-modify-public"))
+        
         selected_songs = request.POST.getlist('songs')
         playlist = get_object_or_404(Playlist, playlist_id=id)
-
-        for song_id in selected_songs:
-            song = Song.objects.get(song_id=song_id)
+        spotify_playlist = spotify_log.user_playlist_create(spotify_log.me()["id"], playlist.playlist_name, public=True)
+        playlist_id = spotify_playlist["id"]
+        playlist.playlist_link = spotify_playlist['external_urls']['spotify']
+        
+        max_tracks = 100  # Maximum number of tracks allowed per request
+        matrix_selected_songs = [selected_songs[i:i+max_tracks] for i in range(0, len(selected_songs), max_tracks)]
+        
+        for curr_patch in matrix_selected_songs:
             
-            if not SongPlaylistRelation.objects.filter(playlist_id=playlist, song_id=song).exists():
-                SongPlaylistRelation.objects.create(playlist_id=playlist, song_id=song)
-
-
+            for song in curr_patch:
+                # Add song to Spotify
+                track_id = song.spotify_link.split("/")[-1].split("?")[0]
+                spotify_log.playlist_add_items(playlist_id, track_id)
+                
+                # Add song to mapping table
+                if not SongPlaylistRelation.objects.filter(playlist_id=playlist, song_id=song).exists():
+                    SongPlaylistRelation.objects.create(playlist_id=playlist, song_id=song)
+            
+            time.sleep(2)
+        
     return redirect('playlist_songs_all', id=playlist.playlist_id)
 
 

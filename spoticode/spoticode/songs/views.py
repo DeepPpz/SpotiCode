@@ -3,9 +3,12 @@ from datetime import datetime
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
+from django.db.models import Q
 # Project
 from spoticode.songs.models import Song, PendingSong
 from spoticode.playlists.models import SongPlaylistRelation
+from spoticode.artists.models import Artist
+from spoticode.albums.models import Album
 from spoticode.songs.forms import CreateSongForm, EditSongForm, AddSongToPlaylistForm, CreatePendingSongForm, EditPendingSongForm
 from spoticode.web.access_validators import custom_login_required, can_create_or_update, can_delete, can_read, is_staff
 from spoticode.web.access_checkers import can_create_checker, can_edit_checker, can_delete_checker
@@ -118,6 +121,10 @@ def edit_song(request, id):
     song = get_object_or_404(Song, song_id=id)
     form = EditSongForm(request.POST or None, instance=song)
     
+    artist = song.main_artist
+    various_artists = Artist.objects.filter(artist_name="Various Artists").first()
+    album_queryset = Album.objects.filter(Q(album_artist=artist) | Q(album_artist=various_artists)).order_by('album_artist__artist_name', 'album_name')
+    
     if request.method == 'POST' and form.is_valid():
         
         spotify_link = form.cleaned_data['spotify_link']
@@ -127,6 +134,10 @@ def edit_song(request, id):
         
         form.save()
         return redirect('song_details', id=song.song_id)
+    
+    else:
+        form = EditSongForm(request.POST or None, instance=song)
+        form.fields['album_id'].queryset = album_queryset
     
     context = {
         'curr_year': datetime.now().year,

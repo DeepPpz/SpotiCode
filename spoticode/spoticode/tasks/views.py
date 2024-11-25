@@ -161,7 +161,7 @@ def edit_task_comment(request, id, c_id):
     
     if request.method == 'POST' and form.is_valid():
         task_comment = form.save()
-        return redirect('task_details', id=task.task_id)
+        return redirect('task_comment_details', id=task.task_id, c_id=task_comment.comment_id)
     
     context = {
         'curr_year': datetime.now().year,

@@ -108,7 +108,7 @@ def edit_artist_links(request, id):
         if wiki_curid:
             wiki_link = f'https://en.wikipedia.org/?curid={wiki_curid}'
             artist_links.wikipedia_link = wiki_link
-        elif not wiki_curid and not artist_links.wikipedia_link:
+        elif not wiki_curid:
             artist_links.wikipedia_link = None
         
         form.save()

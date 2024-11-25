@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}SpotiCode | Playlists - {{playlist }}{% endblock %}
+
 {% block main_content %}
     
 <div class="container-fluid pt-4 px-4">
@@ -15,8 +17,8 @@
                     <h4 class="text-center mb-3">Playlist Details</h4>
                     <h5 class="text-center mb-3">{{ playlist }}</h5>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item bg-transparent">Total Songs: {{ playlist.songs_local }}</li>
-                    <li class="list-group-item bg-transparent">Total Songs on Spotify: {{ playlist.songs_spotify }} </li>
+                    <li class="list-group-item bg-transparent">Total Songs: {{ playlist.songs_count }}</li>
+                    <li class="list-group-item bg-transparent">Total Songs on Spotify: {{ playlist.spotify_count }} </li>
                     <li class="list-group-item bg-transparent">Notes: {{ playlist.notes }}</li>
                     <li class="list-group-item bg-transparent">ID: {{ playlist.playlist_id }}</li>
                     {% if playlist.playlist_link %}

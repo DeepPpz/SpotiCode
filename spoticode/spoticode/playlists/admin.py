@@ -9,7 +9,7 @@ from django_admin_listfilter_dropdown.filters import DropdownFilter
 
 @admin.register(Playlist)
 class PlaylistAdmin(admin.ModelAdmin):
-    list_display = ('playlist_name', 'songs_local', 'songs_spotify', 'playlist_link', 'notes')
+    list_display = ('playlist_name', 'songs_count', 'spotify_count', 'playlist_link', 'notes')
     search_fields = ('playlist_name', 'notes')
     
     def get_exclude(self, request, obj=None):

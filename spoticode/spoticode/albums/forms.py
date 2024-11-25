@@ -96,7 +96,7 @@ class CreateAlbumTrackForm(forms.ModelForm):
 class EditAlbumTrackForm(forms.ModelForm):
     class Meta:
         model = AlbumTrack
-        exclude = ('album_id', )
+        exclude = ('album_id', 'track_id')
     
     def __init__(self, *args, **kwargs):
         album_id = kwargs.pop('album_id', None) 

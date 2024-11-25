@@ -26,8 +26,8 @@ class AlbumAdmin(admin.ModelAdmin):
         return []
     
     def save_model(self, request, obj, form, change):
-        if not obj.album_id:
-            artist_id = obj.album_artist.artist_id
+        artist_id = obj.album_artist.artist_id
+        if not obj.album_id or obj.album_id.split("-A")[0] != artist_id:
             album_no = obj.album_artist.albums_count + 1
             obj.album_id = f'{artist_id}-A{album_no:02}'
         super().save_model(request, obj, form, change)

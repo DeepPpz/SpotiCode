@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}SpotiCode | Task Comment - Edit - {{ task }}{% endblock %}
+
 {% block main_content %}
 
 <div class="container-fluid pt-4 px-4">
@@ -18,7 +20,7 @@
                         <button type="submit" class="btn btn-primary py-3 w-100 mb-3">Save</button>
                     </form>
 
-                    <a href="{% url 'task_details' id=task.task_id %}" type="button" class="btn btn-outline-light py-3 w-100 mb-3">Back</a>
+                    <a href="{% url 'task_comment_details' id=task.task_id c_id=task_comment.comment_id %}" type="button" class="btn btn-outline-light py-3 w-100 mb-3">Back</a>
                 </div>
             </div>
         </div>

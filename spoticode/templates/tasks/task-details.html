@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}SpotiCode | Task - {{ task }}{% endblock %}
+
 {% block main_content %}
 
 <div class="container-fluid pt-4 px-4">
@@ -57,7 +59,7 @@
                                     <small>{{ comment.date_added|date:"F j, Y" }}</small>
                                 </div>
                                 <span>
-                                    <a href="{% url 'task_comment_details' id=task.task_id c_id=comment.comment_id %}" type="button" class="btn btn-outline-link m-2">{{ comment.comment_text|truncatewords:6 }}</a>
+                                    <a href="{% url 'task_comment_details' id=task.task_id c_id=comment.comment_id %}" type="button" class="btn btn-outline-link m-2">{{ comment.comment_text|truncatechars:80 }}</a>
                                 </span>
                             </div>
                         </div>

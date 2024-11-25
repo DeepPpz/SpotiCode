@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}SpotiCode | Playlists - Mass Add - {{ playlist }}{% endblock %}
+
 {% block main_content %}
     
 <div class="container-fluid pt-4 px-4">
@@ -16,38 +18,40 @@
                     {% csrf_token %}
                     {{ form }}
 
-                    <button class="btn btn-primary py-3 w-100 mb-4" type="submit">Generate</button>
+                    <button class="btn btn-outline-primary w-100 m-2" type="submit">Generate</button>
                 </form>
 
                 <form method="post" action="{% url 'playlist_songs_mass_add' id=playlist.playlist_id %}">
                     {% csrf_token %}
                     <input type="hidden" name="playlist_id" value="{{ playlist.playlist_id }}">
-                    <button class="btn btn-primary py-3 w-100 mb-4" type="submit">Mass Add</button>
-
-                    <!-- Button to check all songs -->
-                    <button class="btn btn-primary py-3 w-100 mb-2" type="button" onclick="checkAllSongs()">Check All Songs</button>
-
-
-                    <ul class="bg-secondary rounded h-100 p-4">
-                        {% for song in songs %}
-                            <li>
-                                <input class="form-check-input m-0" type="checkbox" name="songs" value="{{ song.song_id }}"> {{ song }}
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    <button class="btn btn-primary w-100 m-2" type="submit">Mass Add</button>
                 </form>
+
+            </div>
+        </div>
+
+        <!-- Sample Table -->
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h3 class="text-center">Total Songs: {{ songs.count }}</h3>
+
+                <!-- Table -->
+                <table class="table table-borderless" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for song in songs %}
+                        <tr>
+                            <td style="text-align:center" >{{ forloop.counter }}. {{ song }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
 
 {% endblock %}
-
-
-<!-- JavaScript function to check all songs -->
-<script>
-    function checkAllSongs() {
-        var checkboxes = document.querySelectorAll('input[type="checkbox"][name="songs"]');
-        checkboxes.forEach(function(checkbox) {
-            checkbox.checked = true;
-        });
-    }
-</script>

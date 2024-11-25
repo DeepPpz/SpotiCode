@@ -198,7 +198,7 @@ def delete_album_track(request, id, tr_id):
     
     if request.method == 'POST':
         album_track.delete()
-        return redirect('album_details', id=album_track.album_id)
+        return redirect('album_details', id=album.album_id)
 
     context = {
         'curr_year': datetime.now().year,

@@ -10,10 +10,10 @@ class Playlist(models.Model):
                                    db_column='playlist_id', verbose_name='Playlist ID')
     playlist_name = models.CharField(unique=True, 
                                      db_column='playlist_name', verbose_name='Playlist Name')
-    songs_local = models.PositiveIntegerField(blank=True, default=COUNTER_DEFAULT, 
-                                              db_column='songs_local', verbose_name='Total Songs Local')
-    songs_spotify = models.PositiveIntegerField(blank=True, default=COUNTER_DEFAULT, 
-                                                db_column='songs_spotify', verbose_name='Total Songs on Spotify')
+    songs_count = models.PositiveIntegerField(blank=True, default=COUNTER_DEFAULT, 
+                                              db_column='songs_count', verbose_name='Total Songs')
+    spotify_count = models.PositiveIntegerField(blank=True, default=COUNTER_DEFAULT, 
+                                                db_column='spotify_count', verbose_name='Total Songs on Spotify')
     playlist_link = models.URLField(null=True, blank=True, unique=True, 
                                     db_column='playlist_link', verbose_name='Playlist Link')
     playlist_image = models.ImageField(null=True, blank=True, 
